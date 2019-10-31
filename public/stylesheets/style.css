@@ -37,6 +37,20 @@ input[type=submit] {
     background-color: #01b189;
   }
 
+
+.alt-input[type=submit] {
+  color: white;
+  background: #888;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 10px 14px 12px;
+  margin-left: 15px;
+  font-size: 14px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+
+
 p {
   margin: 20px auto;
 }
