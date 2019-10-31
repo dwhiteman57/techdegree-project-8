@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    h2= title
+    p
+        | Are you sure you want to delete
+        |
+        strong= book.title
+        |
+        | by
+        |
+        strong= book.author
+        | ?
+        | This process cannot be undone.
+
+    form(action="/books/" + book.id + "/delete", method="post")
+        a(href="/books/" + book.id) &larr; No, back to book details...
+        input(type="submit", value="Delete")

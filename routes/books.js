@@ -18,7 +18,7 @@ function asyncHandler(cb){
 
 /* GET - show full list of books */
 router.get('/', asyncHandler(async (req, res) => {
-  const books = await Book.findAll();
+  const books = await Book.findAll({ order: [["title", "ASC"]] });
   res.render("books/index", { books, title: "Our Current Catalog" });
 }));
 
@@ -32,17 +32,44 @@ router.get('/new', (req, res) => {
 
 
 /* POST /books/new: Posts a new book to the database */
+router.post('/', asyncHandler(async (req, res) => {
+  const book = await Book.create(req.body);
+  res.redirect("/");
+}));
 
-/* GET /books/:id - Shows book in detail form*/
-router.get("/:id", asyncHandler(async (req, res) => {
+
+
+/* GET /books/:id - Shows individual book in detail form*/
+router.get('/:id', asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
   res.render("books/update-book", { book, title: "Book Details" });
 }));
 
+
+
 /* POST /books/:id - Updates book info in the database */
+router.post('/:id', asyncHandler(async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  await book.update(req.body)
+  res.redirect("/");
+}));
+
+
+
+/* Get /books/:id/delete - Gets book title you want to delete */
+router.get("/:id/delete", asyncHandler(async (req, res) => {
+  const book = await Book.findByPk(req.params.id);
+  res.render("books/delete", { book, title: "Delete Book" });
+}));
+
+
 
 /* POST /books/:id/delete - Deletes a book */
-
+router.post('/:id/delete', asyncHandler(async (req,res) =>{
+  const book = await Book.findByPk(req.params.id);
+  await book.destroy();
+  res.redirect('/');
+}));
 
 
 
