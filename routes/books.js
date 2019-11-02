@@ -33,7 +33,7 @@ router.get('/new', (req, res) => {
 
 
 /* POST /books/new: Posts a new book to the database */
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/new', asyncHandler(async (req, res) => {
   let book;
   try {
     book = await Book.create(req.body);
@@ -56,7 +56,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
   if(book) {
     res.render("books/update-book", { book, title: "Book Details" });
   } else {
-    res.render("books/page-not-found");
+    res.render("books/server-error");
   }
 }));
 
@@ -71,7 +71,7 @@ router.post('/:id', asyncHandler(async (req, res) => {
       await book.update(req.body)
       res.redirect("/");
     } else {
-      res.sendStatus(404);
+      res.render("books/server-error");
     }
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
@@ -93,7 +93,7 @@ router.get("/:id/delete", asyncHandler(async (req, res) => {
   if (book) {
     res.render("books/delete", { book, title: "Delete Book" });
   } else {
-    res.render("books/page-not-found");
+    res.render("books/server-error");
   }
 }));
 
@@ -106,7 +106,7 @@ router.post('/:id/delete', asyncHandler(async (req,res) =>{
     await book.destroy();
     res.redirect('/');
   } else {
-    res.render("books/page-not-found");
+    res.render("books/server-error");
   }
 }));
 
