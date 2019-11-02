@@ -56,7 +56,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
   if(book) {
     res.render("books/update-book", { book, title: "Book Details" });
   } else {
-    res.render("books/server-error");
+    res.render("error");
   }
 }));
 
@@ -71,7 +71,7 @@ router.post('/:id', asyncHandler(async (req, res) => {
       await book.update(req.body)
       res.redirect("/");
     } else {
-      res.render("books/server-error");
+      res.render("error");
     }
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
@@ -82,7 +82,6 @@ router.post('/:id', asyncHandler(async (req, res) => {
       throw error;
     }
   }
-  
 }));
 
 
@@ -93,7 +92,7 @@ router.get("/:id/delete", asyncHandler(async (req, res) => {
   if (book) {
     res.render("books/delete", { book, title: "Delete Book" });
   } else {
-    res.render("books/server-error");
+    res.render("error");
   }
 }));
 
@@ -106,7 +105,7 @@ router.post('/:id/delete', asyncHandler(async (req,res) =>{
     await book.destroy();
     res.redirect('/');
   } else {
-    res.render("books/server-error");
+    res.render("error");
   }
 }));
 
